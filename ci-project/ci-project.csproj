@@ -9,9 +9,13 @@
     <PackageReference Include="Dapper" Version="2.0.35" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.113.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.6" />
+    <PackageReference Include="FluentMigrator.Runner" Version="3.2.8" />
+    <PackageReference Include="FluentMigrator.Runner.SQLite" Version="3.2.8" />
+    <PackageReference Include="FluentMigrator" Version="3.2.8" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DAO\" />
     <Folder Include="db\" />
+    <Folder Include="db\migration\" />
   </ItemGroup>
 </Project>

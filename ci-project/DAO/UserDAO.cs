@@ -9,12 +9,10 @@ namespace ci_project.DAO
 {
     public class UserDAO
     {
-        IConfiguration config;
         string connectionString = "";
 
-        public UserDAO(IConfiguration _config)
+        public UserDAO(IConfiguration config)
         {
-            config = _config;
             connectionString = config["ConnectionString:Sqlite"];
         }
 
