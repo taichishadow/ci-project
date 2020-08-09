@@ -9,11 +9,11 @@ namespace ci_project.DAO
 {
     public class UserDAO
     {
-        string connectionString = "";
+        static string connectionString;
 
         public UserDAO(IConfiguration config)
         {
-            connectionString = config["ConnectionString:Sqlite"];
+            connectionString = config.GetValue<string>("ConnectionString:Sqlite");
         }
 
         public List<UserModel> obtainAllUsers()

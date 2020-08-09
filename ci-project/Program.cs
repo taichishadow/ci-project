@@ -18,16 +18,10 @@ namespace ci_project
 {
     public class Program
     {
-        static string connectionString;
-
-        public Program(IConfiguration config)
-        {
-            connectionString = config["ConnectionString:Sqlite"];
-        }
-
         public static void Main(string[] args)
         {
-            var serviceProvider = CreateServices();
+            string connectionString = obtainConnectionString();
+            var serviceProvider = obtainServiceProvider(connectionString);
 
             // Put the database update into a scope to ensure
             // that all resources will be disposed.
@@ -37,6 +31,16 @@ namespace ci_project
             }
 
             CreateHostBuilder(args).Build().Run();
+        }
+
+        public static string obtainConnectionString()
+        {
+            var config = new ConfigurationBuilder()
+                            .AddJsonFile("appsettings.json", optional: false)
+                            .Build();
+            string connectionString = config.GetValue<string>("ConnectionString:Sqlite");
+
+            return connectionString;
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -49,7 +53,7 @@ namespace ci_project
         /// <summary>
         /// Configure the dependency injection services
         /// </summary>
-        private static IServiceProvider CreateServices()
+        private static IServiceProvider obtainServiceProvider(string connectionString)
         {
             return new ServiceCollection()
                 // Add common FluentMigrator services
