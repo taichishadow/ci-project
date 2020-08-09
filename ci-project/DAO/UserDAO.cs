@@ -20,7 +20,7 @@ namespace ci_project.DAO
         public List<UserModel> obtainAllUsers()
         {
             List<UserModel> users = new List<UserModel>();
-            string sqlQuery = @"select * from user;";
+            string sqlQuery = @"select * from users;";
 
             using (var cn = new SQLiteConnection(connectionString))
             {
@@ -32,7 +32,7 @@ namespace ci_project.DAO
         public List<UserModel> obtainUsersByParams(DynamicParameters sqlParams)
         {
             List<UserModel> users = new List<UserModel>();
-            string sqlQuery = @"select * from user where 1=1;";
+            string sqlQuery = @"select * from users where 1=1;";
 
             if(sqlParams.Get<string>("name") != null)
             {
@@ -53,7 +53,7 @@ namespace ci_project.DAO
 
         public void insert(UserDAO user)
         {
-            string sqlQuery = @"insert into user (name, cashBalance) values (@name, @cashBalance);";
+            string sqlQuery = @"insert into users (name, cashBalance) values (@name, @cashBalance);";
 
             using (var cn = new SQLiteConnection(connectionString))
             {

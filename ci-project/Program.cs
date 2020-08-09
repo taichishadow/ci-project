@@ -24,9 +24,6 @@ namespace ci_project
             string connectionString = Sqlite.obtainConnectionString();
 
             var serviceProvider = obtainServiceProvider(connectionString);
-
-            // Put the database update into a scope to ensure
-            // that all resources will be disposed.
             using (var scope = serviceProvider.CreateScope())
             {
                 UpdateDatabase(scope.ServiceProvider);
