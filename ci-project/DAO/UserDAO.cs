@@ -4,6 +4,7 @@ using System.Data.SQLite;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using ci_project.Models;
+using ci_project.db;
 
 namespace ci_project.DAO
 {
@@ -11,9 +12,9 @@ namespace ci_project.DAO
     {
         static string connectionString;
 
-        public UserDAO(IConfiguration config)
+        public UserDAO()
         {
-            connectionString = config.GetValue<string>("ConnectionString:Sqlite");
+            connectionString = Sqlite.obtainConnectionString();
         }
 
         public List<UserModel> obtainAllUsers()

@@ -13,6 +13,7 @@ using FluentMigrator.Runner.Initialization;
 using Microsoft.Extensions.DependencyInjection;
 
 using ci_project.db.migration;
+using ci_project.db;
 
 namespace ci_project
 {
@@ -20,7 +21,8 @@ namespace ci_project
     {
         public static void Main(string[] args)
         {
-            string connectionString = obtainConnectionString();
+            string connectionString = Sqlite.obtainConnectionString();
+
             var serviceProvider = obtainServiceProvider(connectionString);
 
             // Put the database update into a scope to ensure
@@ -33,15 +35,7 @@ namespace ci_project
             CreateHostBuilder(args).Build().Run();
         }
 
-        public static string obtainConnectionString()
-        {
-            var config = new ConfigurationBuilder()
-                            .AddJsonFile("appsettings.json", optional: false)
-                            .Build();
-            string connectionString = config.GetValue<string>("ConnectionString:Sqlite");
-
-            return connectionString;
-        }
+        
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
