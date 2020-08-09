@@ -51,7 +51,7 @@ namespace ci_project.DAO
             return users;
         }
 
-        public void insert(UserDAO user)
+        public void insert(UserModel user)
         {
             string sqlQuery = @"insert into users (name, cashBalance) values (@name, @cashBalance);";
 

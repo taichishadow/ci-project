@@ -20,5 +20,12 @@ namespace ci_project.Controllers
 
             return Json(users);
         }
+
+        [HttpPost]
+        public void add_user(UserModel user)
+        {
+            UserDAO userDAO = new UserDAO();
+            userDAO.insert(user);
+        }
     }
 }
