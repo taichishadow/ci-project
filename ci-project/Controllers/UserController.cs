@@ -22,7 +22,7 @@ namespace ci_project.Controllers
         }
 
         [HttpPost]
-        public void add_user(UserModel user)
+        public void add_user([FromBody]UserModel user)
         {
             UserDAO userDAO = new UserDAO();
             userDAO.insert(user);
