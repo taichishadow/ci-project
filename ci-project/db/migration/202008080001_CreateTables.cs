@@ -10,9 +10,9 @@ namespace ci_project.db.migration
         {
             Create.Table("book_stores")
                     .WithColumn("id").AsInt32().PrimaryKey().Identity()
-                    .WithColumn("store_name").AsString()
-                    .WithColumn("cash_balance").AsDouble()
-                    .WithColumn("opening_hours").AsString();
+                    .WithColumn("storeName").AsString()
+                    .WithColumn("cashBalance").AsDouble()
+                    .WithColumn("openingHours").AsString();
         }
 
         public override void Down()
@@ -28,7 +28,7 @@ namespace ci_project.db.migration
         {
             Create.Table("books")
                     .WithColumn("id").AsInt32().PrimaryKey().Identity()
-                    .WithColumn("book_store_id").AsInt32().ForeignKey()
+                    .WithColumn("bookStoreId").AsInt32().ForeignKey()
                     .WithColumn("name").AsString()
                     .WithColumn("price").AsDouble();
         }
@@ -46,10 +46,10 @@ namespace ci_project.db.migration
         {
             Create.Table("purchase_histories")
                     .WithColumn("id").AsInt32().PrimaryKey().Identity()
-                    .WithColumn("book_id").AsInt32().ForeignKey()
-                    .WithColumn("user_id").AsInt32().ForeignKey()
-                    .WithColumn("transaction_amount").AsDouble()
-                    .WithColumn("transaction_date").AsDateTime();
+                    .WithColumn("bookId").AsInt32().ForeignKey()
+                    .WithColumn("userId").AsInt32().ForeignKey()
+                    .WithColumn("transactionAmount").AsDouble()
+                    .WithColumn("transactionDate").AsDateTime();
         }
 
         public override void Down()

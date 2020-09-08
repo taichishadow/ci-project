@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+
 using ci_project.Models;
 using ci_project.DAO;
 
@@ -26,6 +27,20 @@ namespace ci_project.Controllers
         {
             UserDAO userDAO = new UserDAO();
             userDAO.insert(user);
+        }
+
+        [HttpPost]
+        public void update_user([FromBody] UserModel user)
+        {
+            UserDAO userDAO = new UserDAO();
+            userDAO.update(user);
+        }
+
+        [HttpPost]
+        public void delete_user([FromBody] UserModel user)
+        {
+            UserDAO userDAO = new UserDAO();
+            userDAO.delete(user);
         }
     }
 }

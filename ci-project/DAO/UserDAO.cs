@@ -2,7 +2,6 @@
 using Dapper;
 using System.Data.SQLite;
 using System.Collections.Generic;
-using Microsoft.Extensions.Configuration;
 using ci_project.Models;
 using ci_project.db;
 
@@ -54,6 +53,26 @@ namespace ci_project.DAO
         public void insert(UserModel user)
         {
             string sqlQuery = @"insert into users (name, cashBalance) values (@name, @cashBalance);";
+
+            using (var cn = new SQLiteConnection(connectionString))
+            {
+                cn.Execute(sqlQuery, user);
+            }
+        }
+
+        public void update(UserModel user)
+        {
+            string sqlQuery = @"update users set name = @name, cashBalance = @cashBalance where id = @id;";
+
+            using (var cn = new SQLiteConnection(connectionString))
+            {
+                cn.Execute(sqlQuery, user);
+            }
+        }
+
+        public void delete(UserModel user)
+        {
+            string sqlQuery = @"delete from users where id = @id;";
 
             using (var cn = new SQLiteConnection(connectionString))
             {

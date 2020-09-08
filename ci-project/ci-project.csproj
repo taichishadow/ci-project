@@ -12,6 +12,7 @@
     <PackageReference Include="FluentMigrator.Runner" Version="3.2.8" />
     <PackageReference Include="FluentMigrator.Runner.SQLite" Version="3.2.8" />
     <PackageReference Include="FluentMigrator" Version="3.2.8" />
+    <PackageReference Include="ChoETL" Version="1.2.0.8" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DAO\" />
