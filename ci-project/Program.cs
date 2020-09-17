@@ -3,16 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-
-using FluentMigrator.Runner;
-using FluentMigrator.Runner.Initialization;
-
-using Microsoft.Extensions.DependencyInjection;
-
-using ci_project.db.migration;
 using ci_project.db;
 
 namespace ci_project
@@ -21,18 +13,9 @@ namespace ci_project
     {
         public static void Main(string[] args)
         {
-            string connectionString = Sqlite.obtainConnectionString();
-
-            var serviceProvider = obtainServiceProvider(connectionString);
-            using (var scope = serviceProvider.CreateScope())
-            {
-                UpdateDatabase(scope.ServiceProvider);
-            }
-
+            Sqlite.init();
             CreateHostBuilder(args).Build().Run();
         }
-
-        
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
@@ -40,41 +23,5 @@ namespace ci_project
                 {
                     webBuilder.UseStartup<Startup>();
                 });
-
-        /// <summary>
-        /// Configure the dependency injection services
-        /// </summary>
-        private static IServiceProvider obtainServiceProvider(string connectionString)
-        {
-            return new ServiceCollection()
-                // Add common FluentMigrator services
-                .AddFluentMigratorCore()
-                .ConfigureRunner(rb => rb
-                    // Add SQLite support to FluentMigrator
-                    .AddSQLite()
-                    // Set the connection string
-                    .WithGlobalConnectionString(connectionString)
-                    // Define the assembly containing the migrations
-                    .ScanIn(typeof(CreateBookStoreTable).Assembly).For.Migrations()
-                    .ScanIn(typeof(CreateBookTable).Assembly).For.Migrations()
-                    .ScanIn(typeof(CreatePurchaseHistoryTable).Assembly).For.Migrations()
-                    .ScanIn(typeof(CreateUserTable).Assembly).For.Migrations())
-                // Enable logging to console in the FluentMigrator way
-                .AddLogging(lb => lb.AddFluentMigratorConsole())
-                // Build the service provider
-                .BuildServiceProvider(false);
-        }
-
-        /// <summary>
-        /// Update the database
-        /// </summary>
-        private static void UpdateDatabase(IServiceProvider serviceProvider)
-        {
-            // Instantiate the runner
-            var runner = serviceProvider.GetRequiredService<IMigrationRunner>();
-
-            // Execute the migrations
-            runner.MigrateUp();
-        }
     }
 }
