@@ -2,13 +2,34 @@
     let users = obtain_users();
     render_users(users);
 
-    $(".name").change(function () {
+    $(".add").click(function () {
+        let user = {
+            name: '',
+            cashBalance: 0
+        }
+        post_api("/User/add_user", JSON.stringify(user));
+
+        users = obtain_users();
+        render_users(users);
+    });
+
+    $(document).on("click", ".save", function () {
         let user = {
             id: $(this).data("id"),
-            name: $(this).val(),
-            cashBalance: parseInt($(this).parent("td").next("td").find(".cashBalance").val())
+            name: $(this).parent("td").prev("td").prev("td").find(".name").val(),
+            cashBalance: parseInt($(this).parent("td").prev("td").find(".cashBalance").val())
         }
-        update_user(JSON.stringify(user));
+        post_api("/User/update_user", JSON.stringify(user));
+
+        users = obtain_users();
+        render_users(users);
+    });
+
+    $(document).on("click", ".delete", function () {
+        let user = {
+            id: $(this).data("id")
+        }
+        post_api("/User/delete_user", JSON.stringify(user));
 
         users = obtain_users();
         render_users(users);
@@ -34,20 +55,24 @@ function render_users(users) {
     users.forEach(function (user) {
         view += "<tr>";
         view += "<td><input class=\"name\" type=\"text\" value=\""+user.name+"\" data-id=\""+user.id+"\" /></td>";
-        view += "<td><input class=\"cashBalance\" type=\"text\" value=\"" + user.cashBalance + "\" data-id=\"" + user.id +"\" /></td>";
+        view += "<td><input class=\"cashBalance\" type=\"text\" value=\"" + user.cashBalance + "\" data-id=\"" + user.id + "\" /></td>";
+        view += "<td>";
+        view += "<input class=\"save\" type=\"button\" value=\"儲存\" data-id=\"" + user.id + "\" />";
+        view += "<input class=\"delete\" type=\"button\" value=\"刪除\" data-id=\"" + user.id + "\" />";
+        view += "</td > ";
         view += "</tr>";
     });
     $("#users tr").next().remove();
     $("#users tr").after(view);
 }
 
-function update_user(user) {
+function post_api(url, data) {
     $.ajax({
-        type: 'POST',
+        type: 'post',
         dataType: 'json',
         async: false,
-        url: '/User/update_user',
+        url: url,
         contentType: "application/json; charset=utf-8",
-        data: user
+        data: data
     });
 }

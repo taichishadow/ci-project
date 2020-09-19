@@ -31,16 +31,16 @@ namespace ci_project.DAO
         public List<UserModel> obtainUsersByParams(DynamicParameters sqlParams)
         {
             List<UserModel> users = new List<UserModel>();
-            string sqlQuery = @"select * from users where 1=1;";
+            string sqlQuery = @"select * from users where 1=1";
 
             if(sqlParams.Get<string>("name") != null)
             {
-                sqlQuery += "and name = @name";
+                sqlQuery += " and name = @name";
             }
 
             if (sqlParams.Get<double>("cashBalance") !< 0)
             {
-                sqlQuery += "and cashBalance = @cashBalance";
+                sqlQuery += " and cashBalance = @cashBalance";
             }
 
             using (var cn = new SQLiteConnection(connectionString))
